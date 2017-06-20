@@ -85,13 +85,18 @@
     Photo* photo = self.photosArray[indexPath.row];
     cell.photoImageView.contentMode = UIViewContentModeScaleAspectFill;
     
+    if (!photo.photo) {
+        NSData *data = [NSData dataWithContentsOfURL:photo.photoURL];
+        UIImage *downloadedPhoto = [UIImage imageWithData:data];
+        photo.photo = downloadedPhoto;
+        cell.photoImageView.image = downloadedPhoto;
+    } else {
+        cell.photoImageView.image = photo.photo;
+    }
+    
     cell.photoDescription.text = photo.photoDescription;
-    cell.photoImageView.image = photo.photo;
 
     return cell;
 }
-
-
-
 
 @end
